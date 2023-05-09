@@ -1,0 +1,1185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot 1`] = `
+{
+  "Mappings": {
+    "DefaultCrNodeVersionMap": {
+      "af-south-1": {
+        "value": "nodejs16.x",
+      },
+      "ap-east-1": {
+        "value": "nodejs16.x",
+      },
+      "ap-northeast-1": {
+        "value": "nodejs16.x",
+      },
+      "ap-northeast-2": {
+        "value": "nodejs16.x",
+      },
+      "ap-northeast-3": {
+        "value": "nodejs16.x",
+      },
+      "ap-south-1": {
+        "value": "nodejs16.x",
+      },
+      "ap-south-2": {
+        "value": "nodejs16.x",
+      },
+      "ap-southeast-1": {
+        "value": "nodejs16.x",
+      },
+      "ap-southeast-2": {
+        "value": "nodejs16.x",
+      },
+      "ap-southeast-3": {
+        "value": "nodejs16.x",
+      },
+      "ca-central-1": {
+        "value": "nodejs16.x",
+      },
+      "cn-north-1": {
+        "value": "nodejs16.x",
+      },
+      "cn-northwest-1": {
+        "value": "nodejs16.x",
+      },
+      "eu-central-1": {
+        "value": "nodejs16.x",
+      },
+      "eu-central-2": {
+        "value": "nodejs16.x",
+      },
+      "eu-north-1": {
+        "value": "nodejs16.x",
+      },
+      "eu-south-1": {
+        "value": "nodejs16.x",
+      },
+      "eu-south-2": {
+        "value": "nodejs16.x",
+      },
+      "eu-west-1": {
+        "value": "nodejs16.x",
+      },
+      "eu-west-2": {
+        "value": "nodejs16.x",
+      },
+      "eu-west-3": {
+        "value": "nodejs16.x",
+      },
+      "me-central-1": {
+        "value": "nodejs16.x",
+      },
+      "me-south-1": {
+        "value": "nodejs16.x",
+      },
+      "sa-east-1": {
+        "value": "nodejs16.x",
+      },
+      "us-east-1": {
+        "value": "nodejs16.x",
+      },
+      "us-east-2": {
+        "value": "nodejs16.x",
+      },
+      "us-gov-east-1": {
+        "value": "nodejs16.x",
+      },
+      "us-gov-west-1": {
+        "value": "nodejs16.x",
+      },
+      "us-iso-east-1": {
+        "value": "nodejs14.x",
+      },
+      "us-iso-west-1": {
+        "value": "nodejs14.x",
+      },
+      "us-isob-east-1": {
+        "value": "nodejs14.x",
+      },
+      "us-west-1": {
+        "value": "nodejs16.x",
+      },
+      "us-west-2": {
+        "value": "nodejs16.x",
+      },
+    },
+  },
+  "Outputs": {
+    "distribution": {
+      "Value": {
+        "Fn::GetAtt": [
+          "SiteCloudfrontDistribution0794B6B8",
+          "DomainName",
+        ],
+      },
+    },
+    "siteBucket": {
+      "Value": {
+        "Ref": "SitewebsiteBucketBC20A569",
+      },
+    },
+    "webSocketApi": {
+      "Value": {
+        "Fn::GetAtt": [
+          "ApiGatewayResourceswebSocketApiE1CE5EBD",
+          "ApiEndpoint",
+        ],
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "ApiGatewayResourceseventSourceMapping03D111D3": {
+      "Properties": {
+        "EventSourceArn": {
+          "Fn::GetAtt": [
+            "KDSResourceskinesisDataStreamF3B8D8FC",
+            "Arn",
+          ],
+        },
+        "FunctionName": {
+          "Ref": "ApiGatewayResourceslambdaHandlerEAB586CF",
+        },
+        "StartingPosition": "LATEST",
+      },
+      "Type": "AWS::Lambda::EventSourceMapping",
+    },
+    "ApiGatewayResourceslambdaHandlerEAB586CF": {
+      "DependsOn": [
+        "ApiGatewayResourcesvoiceCallAnalyticsLambdaSinkRoleDefaultPolicy0BF63BFB",
+        "ApiGatewayResourcesvoiceCallAnalyticsLambdaSinkRole9F356BC7",
+      ],
+      "Properties": {
+        "Architectures": [
+          "arm64",
+        ],
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "ad61e73046f90c19440652aedc5d54ba1733451ba700b595ceb4f72ffd633833.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "API_GATEWAY_ENDPOINT": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Ref": "ApiGatewayResourceswebSocketApiE1CE5EBD",
+                  },
+                  ".execute-api.",
+                  {
+                    "Ref": "AWS::Region",
+                  },
+                  ".amazonaws.com/dev",
+                ],
+              ],
+            },
+            "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "CONNECTION_TABLE": {
+              "Ref": "DynamoDbResourcesconnectionTableB361F966",
+            },
+            "STREAM_NAME": {
+              "Ref": "KDSResourceskinesisDataStreamF3B8D8FC",
+            },
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "ApiGatewayResourcesvoiceCallAnalyticsLambdaSinkRole9F356BC7",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 60,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ApiGatewayResourcesvoiceCallAnalyticsLambdaSinkRole9F356BC7": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ApiGatewayResourcesvoiceCallAnalyticsLambdaSinkRoleDefaultPolicy0BF63BFB": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "DynamoDbResourcesconnectionTableB361F966",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
+            {
+              "Action": [
+                "kinesis:DescribeStreamSummary",
+                "kinesis:GetRecords",
+                "kinesis:GetShardIterator",
+                "kinesis:ListShards",
+                "kinesis:SubscribeToShard",
+                "kinesis:DescribeStream",
+                "kinesis:ListStreams",
+                "kinesis:DescribeStreamConsumer",
+                "kinesis:PutRecord",
+                "kinesis:PutRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "KDSResourceskinesisDataStreamF3B8D8FC",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": "execute-api:ManageConnections",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayResourceswebSocketApiE1CE5EBD",
+                    },
+                    "/dev/*/@connections/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "execute-api:ManageConnections",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayResourceswebSocketApiE1CE5EBD",
+                    },
+                    "/*/*/@connections/*",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ApiGatewayResourcesvoiceCallAnalyticsLambdaSinkRoleDefaultPolicy0BF63BFB",
+        "Roles": [
+          {
+            "Ref": "ApiGatewayResourcesvoiceCallAnalyticsLambdaSinkRole9F356BC7",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "ApiGatewayResourceswebSocketApiE1CE5EBD": {
+      "Properties": {
+        "Name": "webSocketApi",
+        "ProtocolType": "WEBSOCKET",
+        "RouteSelectionExpression": "$request.body.action",
+      },
+      "Type": "AWS::ApiGatewayV2::Api",
+    },
+    "ApiGatewayResourceswebSocketApiconnectRouteConnectIntegration53E9BB97": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiGatewayResourceswebSocketApiE1CE5EBD",
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":apigateway:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":lambda:path/2015-03-31/functions/",
+              {
+                "Fn::GetAtt": [
+                  "ApiGatewayResourceslambdaHandlerEAB586CF",
+                  "Arn",
+                ],
+              },
+              "/invocations",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::ApiGatewayV2::Integration",
+    },
+    "ApiGatewayResourceswebSocketApiconnectRouteConnectIntegrationPermissionB068C7B8": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ApiGatewayResourceslambdaHandlerEAB586CF",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayResourceswebSocketApiE1CE5EBD",
+              },
+              "/*/*$connect",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "ApiGatewayResourceswebSocketApiconnectRouteE6AB3823": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiGatewayResourceswebSocketApiE1CE5EBD",
+        },
+        "AuthorizationType": "NONE",
+        "RouteKey": "$connect",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "ApiGatewayResourceswebSocketApiconnectRouteConnectIntegration53E9BB97",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::ApiGatewayV2::Route",
+    },
+    "ApiGatewayResourceswebSocketApidefaultRoute1DE9625A": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiGatewayResourceswebSocketApiE1CE5EBD",
+        },
+        "AuthorizationType": "NONE",
+        "RouteKey": "$default",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "ApiGatewayResourceswebSocketApidefaultRouteDefaultIntegrationD5B59ADD",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::ApiGatewayV2::Route",
+    },
+    "ApiGatewayResourceswebSocketApidefaultRouteDefaultIntegrationD5B59ADD": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiGatewayResourceswebSocketApiE1CE5EBD",
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":apigateway:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":lambda:path/2015-03-31/functions/",
+              {
+                "Fn::GetAtt": [
+                  "ApiGatewayResourceslambdaHandlerEAB586CF",
+                  "Arn",
+                ],
+              },
+              "/invocations",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::ApiGatewayV2::Integration",
+    },
+    "ApiGatewayResourceswebSocketApidefaultRouteDefaultIntegrationPermission9E1D8410": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ApiGatewayResourceslambdaHandlerEAB586CF",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayResourceswebSocketApiE1CE5EBD",
+              },
+              "/*/*$default",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "ApiGatewayResourceswebSocketApidisconnectRoute6012306A": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiGatewayResourceswebSocketApiE1CE5EBD",
+        },
+        "AuthorizationType": "NONE",
+        "RouteKey": "$disconnect",
+        "Target": {
+          "Fn::Join": [
+            "",
+            [
+              "integrations/",
+              {
+                "Ref": "ApiGatewayResourceswebSocketApidisconnectRouteDisconnectIntegration447E95C3",
+              },
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::ApiGatewayV2::Route",
+    },
+    "ApiGatewayResourceswebSocketApidisconnectRouteDisconnectIntegration447E95C3": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiGatewayResourceswebSocketApiE1CE5EBD",
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":apigateway:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":lambda:path/2015-03-31/functions/",
+              {
+                "Fn::GetAtt": [
+                  "ApiGatewayResourceslambdaHandlerEAB586CF",
+                  "Arn",
+                ],
+              },
+              "/invocations",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::ApiGatewayV2::Integration",
+    },
+    "ApiGatewayResourceswebSocketApidisconnectRouteDisconnectIntegrationPermission003979D8": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ApiGatewayResourceslambdaHandlerEAB586CF",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayResourceswebSocketApiE1CE5EBD",
+              },
+              "/*/*$disconnect",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "ApiGatewayResourceswebSocketStage3AA66B90": {
+      "Properties": {
+        "ApiId": {
+          "Ref": "ApiGatewayResourceswebSocketApiE1CE5EBD",
+        },
+        "AutoDeploy": true,
+        "StageName": "dev",
+      },
+      "Type": "AWS::ApiGatewayV2::Stage",
+    },
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536": {
+      "DependsOn": [
+        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+        "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "9eb41a5505d37607ac419321497a4f8c21cf0ee1f9b4a6b29aa04301aea5c7fd.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "AWS_CA_BUNDLE": "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem",
+          },
+        },
+        "Handler": "index.handler",
+        "Layers": [
+          {
+            "Ref": "SiteDeployBucketAwsCliLayerB1A3335C",
+          },
+        ],
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.9",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::",
+                      {
+                        "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+                      },
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::",
+                      {
+                        "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "SitewebsiteBucketBC20A569",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "SitewebsiteBucketBC20A569",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "cloudfront:GetInvalidation",
+                "cloudfront:CreateInvalidation",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+        "Roles": [
+          {
+            "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+      "DependsOn": [
+        "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "350185a1069fa20a23a583e20c77f6844218bd73097902362dc94f1a108f5d89.zip",
+        },
+        "Description": {
+          "Fn::Join": [
+            "",
+            [
+              "Lambda function for auto-deleting objects in ",
+              {
+                "Ref": "SitewebsiteBucketBC20A569",
+              },
+              " S3 bucket.",
+            ],
+          ],
+        },
+        "Handler": "__entrypoint__.handler",
+        "MemorySize": 128,
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs16.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:\${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "DynamoDbResourcesconnectionTableB361F966": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "connectionId",
+            "AttributeType": "S",
+          },
+        ],
+        "BillingMode": "PAY_PER_REQUEST",
+        "KeySchema": [
+          {
+            "AttributeName": "connectionId",
+            "KeyType": "HASH",
+          },
+        ],
+        "SSESpecification": {
+          "SSEEnabled": true,
+        },
+        "TimeToLiveSpecification": {
+          "AttributeName": "TTL",
+          "Enabled": true,
+        },
+      },
+      "Type": "AWS::DynamoDB::Table",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "KDSResourceskinesisDataStreamF3B8D8FC": {
+      "Properties": {
+        "RetentionPeriodHours": 24,
+        "ShardCount": 1,
+      },
+      "Type": "AWS::Kinesis::Stream",
+    },
+    "SiteCloudfrontDistribution0794B6B8": {
+      "Properties": {
+        "DistributionConfig": {
+          "CustomErrorResponses": [
+            {
+              "ErrorCode": 403,
+              "ResponseCode": 200,
+              "ResponsePagePath": "/index.html",
+            },
+          ],
+          "DefaultCacheBehavior": {
+            "CachePolicyId": "4135ea2d-6df8-44a3-9df3-4b5a84be39ad",
+            "Compress": true,
+            "TargetOriginId": "testSiteCloudfrontDistributionOrigin14F75D719",
+            "ViewerProtocolPolicy": "redirect-to-https",
+          },
+          "DefaultRootObject": "index.html",
+          "Enabled": true,
+          "HttpVersion": "http2",
+          "IPV6Enabled": true,
+          "Origins": [
+            {
+              "DomainName": {
+                "Fn::GetAtt": [
+                  "SitewebsiteBucketBC20A569",
+                  "RegionalDomainName",
+                ],
+              },
+              "Id": "testSiteCloudfrontDistributionOrigin14F75D719",
+              "S3OriginConfig": {
+                "OriginAccessIdentity": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "origin-access-identity/cloudfront/",
+                      {
+                        "Ref": "SiteCloudfrontDistributionOrigin1S3Origin4F2AB6D1",
+                      },
+                    ],
+                  ],
+                },
+              },
+            },
+          ],
+        },
+      },
+      "Type": "AWS::CloudFront::Distribution",
+    },
+    "SiteCloudfrontDistributionOrigin1S3Origin4F2AB6D1": {
+      "Properties": {
+        "CloudFrontOriginAccessIdentityConfig": {
+          "Comment": "Identity for testSiteCloudfrontDistributionOrigin14F75D719",
+        },
+      },
+      "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+    },
+    "SiteDeployBucketAwsCliLayerB1A3335C": {
+      "Properties": {
+        "Content": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "6a28458f7bc3d04e4d2b17f9c3da0709bf456e34b06ea7c96111eecb2fddd054.zip",
+        },
+        "Description": "/opt/awscli/aws",
+      },
+      "Type": "AWS::Lambda::LayerVersion",
+    },
+    "SiteDeployBucketCustomResource08EC962A": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "DestinationBucketName": {
+          "Ref": "SitewebsiteBucketBC20A569",
+        },
+        "DistributionId": {
+          "Ref": "SiteCloudfrontDistribution0794B6B8",
+        },
+        "DistributionPaths": [
+          "/*",
+        ],
+        "Prune": true,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536",
+            "Arn",
+          ],
+        },
+        "SourceBucketNames": [
+          {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+        ],
+        "SourceMarkers": [
+          {},
+          {
+            "<<marker:0xbaba:0>>": {
+              "Ref": "KDSResourceskinesisDataStreamF3B8D8FC",
+            },
+            "<<marker:0xbaba:1>>": {
+              "Ref": "DynamoDbResourcesconnectionTableB361F966",
+            },
+            "<<marker:0xbaba:2>>": {
+              "Fn::GetAtt": [
+                "ApiGatewayResourceswebSocketApiE1CE5EBD",
+                "ApiEndpoint",
+              ],
+            },
+          },
+        ],
+        "SourceObjectKeys": [
+          "c1366de8f6465d587c14aee1716a97f114ca52324de63dd25925fe625a4da7b0.zip",
+          "870cc7bff44c780a27e163d195eec1470487a5fc5029aafbdf572dec258138f6.zip",
+        ],
+      },
+      "Type": "Custom::CDKBucketDeployment",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "SitewebsiteBucketAutoDeleteObjectsCustomResourceB62EAF63": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "SitewebsiteBucketPolicyC20F0243",
+      ],
+      "Properties": {
+        "BucketName": {
+          "Ref": "SitewebsiteBucketBC20A569",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::S3AutoDeleteObjects",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "SitewebsiteBucketBC20A569": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256",
+              },
+            },
+          ],
+        },
+        "OwnershipControls": {
+          "Rules": [
+            {
+              "ObjectOwnership": "BucketOwnerPreferred",
+            },
+          ],
+        },
+        "Tags": [
+          {
+            "Key": "aws-cdk:auto-delete-objects",
+            "Value": "true",
+          },
+          {
+            "Key": "aws-cdk:cr-owned:7d2ce709",
+            "Value": "true",
+          },
+        ],
+      },
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "SitewebsiteBucketPolicyC20F0243": {
+      "Properties": {
+        "Bucket": {
+          "Ref": "SitewebsiteBucketBC20A569",
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+                    "Arn",
+                  ],
+                },
+              },
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "SitewebsiteBucketBC20A569",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "SitewebsiteBucketBC20A569",
+                          "Arn",
+                        ],
+                      },
+                      "/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "s3:GetObject",
+              "Effect": "Allow",
+              "Principal": {
+                "CanonicalUser": {
+                  "Fn::GetAtt": [
+                    "SiteCloudfrontDistributionOrigin1S3Origin4F2AB6D1",
+                    "S3CanonicalUserId",
+                  ],
+                },
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "SitewebsiteBucketBC20A569",
+                        "Arn",
+                      ],
+                    },
+                    "/*",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::S3::BucketPolicy",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

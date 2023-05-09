@@ -1,10 +1,10 @@
 import { App } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
-import { MyStack } from '../src/main';
+import { ReactWebsocketReaderForKdsStack } from '../src/react-websocket-reader-for-kds';
 
 test('Snapshot', () => {
   const app = new App();
-  const stack = new MyStack(app, 'test');
+  const stack = new ReactWebsocketReaderForKdsStack(app, 'test');
 
   const template = Template.fromStack(stack);
   expect(template.toJSON()).toMatchSnapshot();

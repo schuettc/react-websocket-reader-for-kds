@@ -64,6 +64,14 @@
       "name": "compile",
       "description": "Only compile"
     },
+    "configLocal": {
+      "name": "configLocal",
+      "steps": [
+        {
+          "exec": "aws s3 cp s3://$(yarn run --silent getBucket)/config.json site/"
+        }
+      ]
+    },
     "default": {
       "name": "default",
       "description": "Synthesize project files",
@@ -120,6 +128,40 @@
       "steps": [
         {
           "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern src test build-tools .projenrc.js"
+        }
+      ]
+    },
+    "getBucket": {
+      "name": "getBucket",
+      "steps": [
+        {
+          "exec": "aws cloudformation describe-stacks --stack-name react-websocket-reader-for-kds --region us-east-1 --query 'Stacks[0].Outputs[?OutputKey==`siteBucket`].OutputValue' --output text"
+        }
+      ]
+    },
+    "install": {
+      "name": "install",
+      "description": "Install project dependencies and update lockfile (non-frozen)",
+      "steps": [
+        {
+          "exec": "yarn install --check-files"
+        }
+      ]
+    },
+    "install:ci": {
+      "name": "install:ci",
+      "description": "Install project dependencies using frozen lockfile",
+      "steps": [
+        {
+          "exec": "yarn install --check-files --frozen-lockfile"
+        }
+      ]
+    },
+    "launch": {
+      "name": "launch",
+      "steps": [
+        {
+          "exec": "yarn && yarn projen && yarn build && yarn cdk bootstrap && yarn cdk deploy --require-approval never && yarn configLocal"
         }
       ]
     },
