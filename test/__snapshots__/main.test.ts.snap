@@ -37,7 +37,16 @@ exports[`Snapshot 1`] = `
       "ap-southeast-4": {
         "value": "nodejs20.x",
       },
+      "ap-southeast-5": {
+        "value": "nodejs20.x",
+      },
+      "ap-southeast-7": {
+        "value": "nodejs20.x",
+      },
       "ca-central-1": {
+        "value": "nodejs20.x",
+      },
+      "ca-west-1": {
         "value": "nodejs20.x",
       },
       "cn-north-1": {
@@ -51,6 +60,9 @@ exports[`Snapshot 1`] = `
       },
       "eu-central-2": {
         "value": "nodejs20.x",
+      },
+      "eu-isoe-west-1": {
+        "value": "nodejs18.x",
       },
       "eu-north-1": {
         "value": "nodejs20.x",
@@ -77,6 +89,9 @@ exports[`Snapshot 1`] = `
         "value": "nodejs20.x",
       },
       "me-south-1": {
+        "value": "nodejs20.x",
+      },
+      "mx-central-1": {
         "value": "nodejs20.x",
       },
       "sa-east-1": {
@@ -660,7 +675,7 @@ exports[`Snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "2d56e153cac88d3e0c2f842e8e6f6783b8725bf91f95e0673b4725448a56e96d.zip",
+          "S3Key": "0158f40002a8c211635388a87874fd4dcc3d68f525fe08a0fe0f014069ae539c.zip",
         },
         "Environment": {
           "Variables": {
@@ -1032,7 +1047,7 @@ exports[`Snapshot 1`] = `
           },
         ],
         "SourceObjectKeys": [
-          "8ce6f0ebaefa4ee68a807ec6589c3c8fe134aeebdd8df4223c934a29b5f599a5.zip",
+          "90771f562a77747c002601ef12b05544d97deb9ebfc61515bf2db4b78d5b878c.zip",
           "870cc7bff44c780a27e163d195eec1470487a5fc5029aafbdf572dec258138f6.zip",
         ],
       },
