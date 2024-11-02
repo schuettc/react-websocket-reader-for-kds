@@ -235,7 +235,7 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@types/jest,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,projen,ts-jest,ts-node,typescript,@aws-cdk/aws-apigatewayv2-alpha,@aws-cdk/aws-apigatewayv2-integrations-alpha,@aws-sdk/client-apigatewaymanagementapi,@aws-sdk/client-dynamodb,@aws-sdk/lib-dynamodb,@types/aws-lambda,@types/fs-extra,aws-lambda,fs-extra"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@types/jest,@types/node,esbuild,eslint-import-resolver-typescript,eslint-plugin-import,jest,projen,ts-jest,ts-node,typescript,@aws-cdk/aws-apigatewayv2-alpha,@aws-cdk/aws-apigatewayv2-integrations-alpha,@aws-sdk/client-apigatewaymanagementapi,@aws-sdk/client-dynamodb,@aws-sdk/lib-dynamodb,@types/aws-lambda,@types/fs-extra,aws-lambda,fs-extra"
         },
         {
           "exec": "yarn install --check-files"
