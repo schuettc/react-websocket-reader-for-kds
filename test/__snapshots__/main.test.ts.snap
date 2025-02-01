@@ -185,7 +185,7 @@ exports[`Snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "ad61e73046f90c19440652aedc5d54ba1733451ba700b595ceb4f72ffd633833.zip",
+          "S3Key": "f81e1c90a4a835e3a0e6ffa4b1b8687e57e0b18bcc448b3c1933a84e61e714d1.zip",
         },
         "Environment": {
           "Variables": {
@@ -675,7 +675,7 @@ exports[`Snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "0158f40002a8c211635388a87874fd4dcc3d68f525fe08a0fe0f014069ae539c.zip",
+          "S3Key": "c6358465bf49dfae556bb430bf9c81fa578c221b82c308e3707901b1dd654762.zip",
         },
         "Environment": {
           "Variables": {
@@ -694,7 +694,7 @@ exports[`Snapshot 1`] = `
             "Arn",
           ],
         },
-        "Runtime": "python3.9",
+        "Runtime": "python3.11",
         "Timeout": 900,
       },
       "Type": "AWS::Lambda::Function",
@@ -996,7 +996,7 @@ exports[`Snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "3322b7049fb0ed2b7cbb644a2ada8d1116ff80c32dca89e6ada846b5de26f961.zip",
+          "S3Key": "d3a6ffb61845b6de3a902f7d70528e6b52293cac69a22956f7f950d97143dee0.zip",
         },
         "Description": "/opt/awscli/aws",
       },
@@ -1014,6 +1014,7 @@ exports[`Snapshot 1`] = `
         "DistributionPaths": [
           "/*",
         ],
+        "OutputObjectKeys": true,
         "Prune": true,
         "ServiceToken": {
           "Fn::GetAtt": [
@@ -1047,7 +1048,7 @@ exports[`Snapshot 1`] = `
           },
         ],
         "SourceObjectKeys": [
-          "90771f562a77747c002601ef12b05544d97deb9ebfc61515bf2db4b78d5b878c.zip",
+          "6d19a911f1e3ae26faba9a0ec1d81241d97b25835cc357711649da23d9e01dc6.zip",
           "870cc7bff44c780a27e163d195eec1470487a5fc5029aafbdf572dec258138f6.zip",
         ],
       },
